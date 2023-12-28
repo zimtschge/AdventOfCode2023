@@ -1,19 +1,27 @@
 use std::fs;
 
+fn filter_digits_only(input: &str) -> String
+{
+    return input.chars().filter(|c| c.is_digit(10)).collect();
+}
+
+fn extract_first_digit(input: &String) -> char{
+    match input.chars().next(){
+        Some(c) => return c,
+        None => panic!("Show how a Option match statement can work")
+    }
+}
+
 fn main() {
 
     // Part One:
     let mut sum = 0i32;
     for line in fs::read_to_string("input.txt").unwrap().lines(){
         // Filter out all non digit characters
-        let digits: String = line.chars().filter(|c| c.is_digit(10)).collect();
+        let digits: String = filter_digits_only(line);
         
         // Get first digit with dealing with Option
-        let mut first_digit: char = ' ';
-        match digits.chars().next(){
-            Some(c) => first_digit = c,
-            None => println!("Could not extract first character")
-        }
+        let first_digit: char = extract_first_digit(&digits);
 
         // Get last digit using unwrap()
         let last_digit: char = digits.chars().last().unwrap();
@@ -38,7 +46,7 @@ fn main() {
         result = result.replace("nine", "9nine");
 
         // Filter out all non digit characters
-        let digits: String = result.chars().filter(|c| c.is_digit(10)).collect();
+        let digits: String = filter_digits_only(&result);
 
         let first_digit: char = digits.chars().next().unwrap();
         let last_digit: char = digits.chars().last().unwrap();
